@@ -30,6 +30,7 @@ class TakePictureController:
         if ret:
             captured_image = self.take_picture_processor.take_picture(frame)
             count = self.main_processor.save_images(captured_image)
+            self.view.capture_count.setText(f"{count} / 4")
             if(count == 4): self.app_manager.show_basic_setting_screen()
 
 class BasicSettingController:
@@ -48,6 +49,9 @@ class BasicSettingController:
         for i, btn in enumerate(self.view.color_palette_btn):
             btn.clicked.connect(lambda checked, idx=i: self.on_color_palette_clicked(idx))
 
+        for i, btn in enumerate(self.view.special_frame_btn):
+            btn.clicked.connect(lambda checked, idx=i: self.on_special_frame_clicked(idx))
+
     def on_next_clicked(self):
         self.main_processor.save_completed_four_cut()
 
@@ -65,4 +69,8 @@ class BasicSettingController:
 
     def on_color_palette_clicked(self, idx):
         four_cut = self.main_processor.change_background_color(idx)
+        self.view.update_main_area(four_cut)
+
+    def on_special_frame_clicked(self, idx):
+        four_cut = self.main_processor.change_background_special(idx)
         self.view.update_main_area(four_cut)
