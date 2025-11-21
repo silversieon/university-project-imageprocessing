@@ -7,7 +7,7 @@ class MainProcessor():
     def __init__(self):
         self.captured_images = []
         self.captured_count = 0
-        self.four_cut = cv2.imread('images/frame.png', cv2.IMREAD_COLOR)
+        self.four_cut = cv2.imread('images/frame/default_frame.png', cv2.IMREAD_COLOR)
         self.captured_img_rois = [[y, y + Settings.TARGET_HEIGHT, 
                                     x, x + Settings.TARGET_WIDTH] for (y, x) in Settings.FOURCUT_POINTS]
         self.background_mask = self.set_background_mask()
@@ -68,6 +68,16 @@ class MainProcessor():
         roi   = cv2.bitwise_and(self.four_cut, self.four_cut, mask=self.foreground_mask)
 
         self.four_cut = cv2.add(colored_background, roi)
+
+        return self.four_cut
+    
+    def change_background_special(self, idx):
+        special_frame = Settings.SPECIAL_FRAMES[idx]
+        
+        special_background = cv2.bitwise_and(special_frame, special_frame, mask=self.background_mask)
+        roi   = cv2.bitwise_and(self.four_cut, self.four_cut, mask=self.foreground_mask)
+
+        self.four_cut = cv2.add(special_background, roi)
 
         return self.four_cut
     

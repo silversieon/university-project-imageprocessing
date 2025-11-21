@@ -9,7 +9,7 @@ class BasicSettingView(QWidget):
         super().__init__()
         self.setWindowTitle("네 컷 기본 설정")
         self.resize(2000, 1500)
-        self.setWindowIcon(QIcon('images/icon.png'))
+        self.setWindowIcon(QIcon(Settings.MAIN_ICON))
 
         self.top_bar = QHBoxLayout()
         self.next_btn = QPushButton("다음으로")
@@ -20,10 +20,11 @@ class BasicSettingView(QWidget):
 
         self.left_bar = QVBoxLayout()
         self.color_palette_btn = []
+        self.special_frame_btn = []
         self.set_left_bar()
 
         self.main_area = QLabel()
-        self.main_area.setStyleSheet("background-color: white; border: 1px solid #ddd;")
+        self.main_area.setStyleSheet("background-color: #d9d9d9; border: 1px solid black;")
         self.main_area.setAlignment(Qt.AlignCenter)
         pix = Settings.convert_to_pyqt_img(main_processor.four_cut)
         self.main_area.setPixmap(pix)
@@ -33,13 +34,13 @@ class BasicSettingView(QWidget):
         # 상단 바 위젯 추가
         self.top_widget = QWidget()
         self.top_widget.setLayout(self.top_bar)
-        self.top_widget.setStyleSheet("background-color: #d9d9d9;")
+        self.top_widget.setStyleSheet("background-color: #d9d9d9; border: 1px solid black;")
         self.layout.addWidget(self.top_widget)
 
         # (좌측 바 + 메인 영역) 위젯 추가
         self.left_widget = QWidget()
         self.left_widget.setLayout(self.left_bar)
-        self.left_widget.setStyleSheet("background-color: #d9d9d9;")
+        self.left_widget.setStyleSheet("background-color: #d9d9d9; border: 1px solid black;")
 
         self.middle = QHBoxLayout()
         self.middle.addWidget(self.left_widget)
@@ -82,6 +83,7 @@ class BasicSettingView(QWidget):
 
         self.left_bar.setContentsMargins(20, 20, 20, 20)
         colors = Settings.COLOR_PALETTE
+        special_frame_icons = Settings.SPECIAL_FRAME_ICONS
 
         for i in range(0, len(colors), 2):
             row = QHBoxLayout()
@@ -103,6 +105,32 @@ class BasicSettingView(QWidget):
 
             self.left_bar.addLayout(row)
 
+        self.left_bar.addStretch()
+
+        for i in range(0, len(special_frame_icons), 2):
+            row = QHBoxLayout()
+
+            btn1 = QPushButton()
+            btn1.setFixedSize(80, 60)
+            btn1.setProperty("special_idx", i)
+            pix1 = Settings.convert_to_pyqt_img(special_frame_icons[i])
+            btn1.setIcon(QIcon(pix1))
+            btn1.setIconSize(btn1.size())
+            self.special_frame_btn.append(btn1)
+            row.addWidget(btn1)
+
+            if i + 1 < len(special_frame_icons):
+                btn2 = QPushButton()
+                btn2.setFixedSize(80, 60)
+                btn2.setProperty("special_idx", i+1)
+                pix2 = Settings.convert_to_pyqt_img(special_frame_icons[i+1])
+                btn2.setIcon(QIcon(pix2))
+                btn2.setIconSize(btn2.size())
+                self.special_frame_btn.append(btn2)
+                row.addWidget(btn2)
+
+            self.left_bar.addLayout(row)
+        
         self.left_bar.addStretch()
 
     def center(self):
