@@ -1,5 +1,6 @@
 import cv2
 import numpy as np
+import pygame
 from PyQt5.QtGui import QImage, QPixmap
 from model.settings import Settings
 
@@ -19,7 +20,13 @@ class MainProcessor():
             mask[y1:y2, x1:x2] = 0
         return mask
     
+    def reset(self):
+        self.captured_images = []
+        self.captured_count = 0
+        self.four_cut = cv2.imread('images/frame/default_frame.png', cv2.IMREAD_COLOR)
+    
     def save_images(self, captured_image):
+        Settings.enhance_frame(captured_image)
         self.captured_images.append(captured_image)
         y1, y2, x1, x2 = self.captured_img_rois[self.captured_count]
         self.four_cut[y1:y2, x1:x2] = captured_image
@@ -82,7 +89,11 @@ class MainProcessor():
         return self.four_cut
     
 class TakePictureProcessor():
+    def __init__(self):
+        pygame.mixer.init()
+
     def take_picture(self, frame):
-        print("Saved captured.jpg")
+        shutter = pygame.mixer.Sound("sounds/capture_sound.mp3")
+        shutter.play()
         image = cv2.flip(cv2.resize(frame, (Settings.TARGET_WIDTH, Settings.TARGET_HEIGHT)), 1)
         return image

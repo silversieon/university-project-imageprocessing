@@ -40,6 +40,7 @@ class Settings():
         cv2.imread('images/icon/special_icon6.png', cv2.IMREAD_COLOR)
     ]
 
+    # 이미지 변환 함수 (OpenCV -> PyQt)
     def convert_to_pyqt_img(image):
         image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
 
@@ -48,3 +49,12 @@ class Settings():
 
         pix = QPixmap.fromImage(image)
         return pix
+    
+    # 프레임 선명도 향상 함수(노이즈 제거 + 선명도 증가)
+    def enhance_frame(frame):
+        median_frame = cv2.medianBlur(frame, 3) # 미디언 블러로 노이즈 다량 제거
+        blur_frame = cv2.GaussianBlur(median_frame, (0, 0), 2) # 가우시안 블러로 부드럽게 처리
+
+        # 선명도 향상(원본 이미지 비율은 높게, 블러 처리 된 부분 가중치도 높여 선명하게)
+        sharp_frame = cv2.addWeighted(median_frame, 2.0, blur_frame, -1.0, 0)
+        return sharp_frame
