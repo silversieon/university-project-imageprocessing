@@ -21,6 +21,7 @@ class BasicSettingView(QWidget):
         self.left_bar = QVBoxLayout()
         self.color_palette_btn = []
         self.special_frame_btn = []
+        self.retry_btn = QPushButton("다시 촬영")
         self.set_left_bar()
 
         self.main_area = QLabel()
@@ -131,6 +132,12 @@ class BasicSettingView(QWidget):
 
             self.left_bar.addLayout(row)
         
+        self.left_bar.addStretch()
+        row = QHBoxLayout()
+        self.retry_btn.setFixedSize(150, 100)
+        self.retry_btn.setStyleSheet("background-color: #000000; color: white; font-weight: bold;")
+        row.addWidget(self.retry_btn)
+        self.left_bar.addLayout(row)
         self.left_bar.addStretch()
 
     def center(self):
