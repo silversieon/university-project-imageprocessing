@@ -1,6 +1,5 @@
-from PyQt5.QtWidgets import QWidget, QPushButton, QVBoxLayout, QToolTip, QDesktopWidget, QLabel
+from PyQt5.QtWidgets import QWidget, QPushButton, QVBoxLayout, QToolTip, QDesktopWidget
 from PyQt5.QtGui import QIcon, QFont
-from PyQt5.QtCore import QCoreApplication
 from model.settings import Settings
 
 class StartView(QWidget):
