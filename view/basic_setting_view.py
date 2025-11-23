@@ -1,6 +1,6 @@
-from PyQt5.QtWidgets import QWidget, QPushButton, QVBoxLayout, QLabel, QToolTip, QDesktopWidget, QHBoxLayout
-from PyQt5.QtGui import QIcon, QImage, QPixmap
-from PyQt5.QtCore import QTimer, Qt
+from PyQt5.QtWidgets import QWidget, QPushButton, QVBoxLayout, QLabel, QDesktopWidget, QHBoxLayout
+from PyQt5.QtGui import QIcon
+from PyQt5.QtCore import Qt
 from model.settings import Settings
 import cv2
 

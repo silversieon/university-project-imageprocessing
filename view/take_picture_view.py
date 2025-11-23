@@ -14,22 +14,12 @@ class TakePictureView(QWidget):
 
         self.capture_count = QLabel(self)
         self.capture_count.setGeometry(800, 30, 400, 150)
-        self.capture_count.setStyleSheet("""
-            background-color: rgba(0, 0, 0, 100);
-            color: white;
-            font-size: 40px;
-            font-weight: bold;
-            padding: 10px;
-        """)
+        self.capture_count.setStyleSheet("background-color: rgba(0, 0, 0, 100); color: white; font-size: 40px; font-weight: bold;padding: 10px;")
         self.capture_count.setAlignment(Qt.AlignCenter)
         self.capture_count.setText("0 / 4")
         self.capture_count.raise_()
 
         self.cam = QLabel(self)
-<<<<<<< HEAD
-=======
-        # self.cam.setGeometry(270, 120, Settings.TARGET_WIDTH*4, Settings.TARGET_HEIGHT*3)
->>>>>>> 42f5b917bd22cb05e01a73f0f3ece1211de062be
         self.cam.setAlignment(Qt.AlignCenter)
 
         self.capture_btn = QPushButton("촬영")
