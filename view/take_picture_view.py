@@ -26,7 +26,6 @@ class TakePictureView(QWidget):
         self.capture_count.raise_()
 
         self.cam = QLabel(self)
-        self.cam.setGeometry(270, 120, Settings.TARGET_WIDTH*4, Settings.TARGET_HEIGHT*3)
         self.cam.setAlignment(Qt.AlignCenter)
 
         self.capture_btn = QPushButton("촬영")

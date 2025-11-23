@@ -38,10 +38,8 @@ class MainProcessor():
         print('save completed fout_cut')
 
     def convert_to_color(self):
-        count = 0
-        for (y1, y2, x1, x2) in self.captured_img_rois:
-            self.four_cut[y1:y2, x1:x2] = self.captured_images[count]
-            count+=1
+        for idx, (y1, y2, x1, x2) in enumerate(self.captured_img_rois):
+            self.four_cut[y1:y2, x1:x2] = self.captured_images[idx]
 
         return self.four_cut
     
