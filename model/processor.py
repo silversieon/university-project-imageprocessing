@@ -11,13 +11,11 @@ class MainProcessor():
         self.four_cut = cv2.imread('images/frame/default_frame.png', cv2.IMREAD_COLOR)
         self.captured_img_rois = [[y, y + Settings.TARGET_HEIGHT, 
                                     x, x + Settings.TARGET_WIDTH] for (y, x) in Settings.FOURCUT_POINTS]
-        self.background_mask = self.set_background_mask()
-        self.foreground_mask = cv2.bitwise_not(self.background_mask)
+        self.foreground_mask = self.set_foreground_mask()
+        self.background_mask =  cv2.bitwise_not(self.foreground_mask)
 
-    def set_background_mask(self):
-        mask = np.full(self.four_cut.shape[:2], 255, np.uint8)
-        for (y1, y2, x1, x2) in self.captured_img_rois:
-            mask[y1:y2, x1:x2] = 0
+    def set_foreground_mask(self):
+        mask = cv2.threshold(cv2.cvtColor(self.four_cut, cv2.COLOR_BGR2GRAY), 50, 255, cv2.THRESH_BINARY)[1]
         return mask
     
     def reset(self):
