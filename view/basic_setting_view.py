@@ -1,14 +1,13 @@
-from PyQt5.QtWidgets import QWidget, QPushButton, QVBoxLayout, QLabel, QToolTip, QDesktopWidget, QHBoxLayout
-from PyQt5.QtGui import QIcon, QImage, QPixmap
-from PyQt5.QtCore import QTimer, Qt
+from PyQt5.QtWidgets import QWidget, QPushButton, QVBoxLayout, QLabel, QDesktopWidget, QHBoxLayout
+from PyQt5.QtGui import QIcon
+from PyQt5.QtCore import Qt
 from model.settings import Settings
-import cv2
 
 class BasicSettingView(QWidget):
     def __init__(self, main_processor):
         super().__init__()
         self.setWindowTitle("네 컷 기본 설정")
-        self.resize(2000, 1500)
+        self.setFixedSize(2000, 1500)
         self.setWindowIcon(QIcon(Settings.MAIN_ICON))
 
         self.top_bar = QHBoxLayout()
@@ -133,6 +132,8 @@ class BasicSettingView(QWidget):
             self.left_bar.addLayout(row)
         
         self.left_bar.addStretch()
+
+        # 다시 촬영 버튼에 대한 row
         row = QHBoxLayout()
         self.retry_btn.setFixedSize(150, 100)
         self.retry_btn.setStyleSheet("background-color: #000000; color: white; font-weight: bold;")
