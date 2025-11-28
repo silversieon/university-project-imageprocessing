@@ -68,6 +68,6 @@ class Settings():
         median_frame = cv2.medianBlur(frame, 3) # 미디언 블러로 노이즈 다량 제거
         blur_frame = cv2.GaussianBlur(median_frame, (0, 0), 2) # 가우시안 블러로 부드럽게 처리
 
-        # 선명도 향상(원본 이미지 비율은 높게, 블러 처리 된 부분 가중치도 높여 선명하게)
+        # 선명도 향상(median_frame 이미지 비율은 높게, 블러 처리 된 부분의 가중치도 높여서 빼 샤프닝 효과)
         sharp_frame = cv2.addWeighted(median_frame, 2.0, blur_frame, -1.0, 0)
         return sharp_frame
