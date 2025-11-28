@@ -56,7 +56,7 @@ class BasicSettingController:
         self.view.retry_btn.clicked.connect(self.on_retry_clicked)
 
     def on_next_clicked(self):
-        self.main_processor.save_completed_four_cut()
+        self.app_manager.show_emoji_sticker_setting_screen()
 
     def on_color_clicked(self):
         four_cut = self.main_processor.convert_to_color()
@@ -82,3 +82,35 @@ class BasicSettingController:
         self.view.close()
         self.main_processor.reset()
         self.app_manager.show_take_picture_screen()
+
+# class ImageStickerSettingController():
+
+class EmojiStickerSettingController:
+    def __init__(self, view, main_processor, app_manager):
+        # 이모지 스티커 설정 컨트롤러의 view, processor, app_manager 정의
+        self.view = view
+        self.main_processor = main_processor
+        self.app_manager = app_manager
+
+        self.view.save_btn.clicked.connect(self.on_save_clicked)
+        self.view.undo_btn.clicked.connect(self.on_undo_clicked)
+        self.view.redo_btn.clicked.connect(self.on_redo_clicked)
+        for i, btn in enumerate(self.view.emoji_btn):
+            btn.clicked.connect(lambda checked, idx=i: self.on_emoji_btn_clicked(idx))
+
+    def on_save_clicked(self):
+        self.main_processor.save_completed_four_cut()
+        self.main_processor.reset()
+        self.app_manager.show_start_screen()
+
+    def on_undo_clicked(self):
+        four_cut = self.main_processor.undo_four_cut()
+        self.view.update_main_area(four_cut)
+
+    def on_redo_clicked(self):
+        four_cut = self.main_processor.redo_four_cut()
+        self.view.update_main_area(four_cut)
+
+    def on_emoji_btn_clicked(self, idx):
+        four_cut = self.main_processor.add_emoji(idx)
+        self.view.update_main_area(four_cut)
