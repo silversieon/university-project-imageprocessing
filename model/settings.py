@@ -40,6 +40,19 @@ class Settings():
         cv2.imread('images/icon/special_icon6.png', cv2.IMREAD_COLOR)
     ]
 
+    EMOJIES = [
+        cv2.bitwise_not(cv2.imread('images/emoji/emotionless.png', cv2.IMREAD_GRAYSCALE)),
+        cv2.bitwise_not(cv2.imread('images/emoji/happy.png', cv2.IMREAD_GRAYSCALE)),
+        cv2.bitwise_not(cv2.imread('images/emoji/sad.png', cv2.IMREAD_GRAYSCALE)),
+        cv2.bitwise_not(cv2.imread('images/emoji/angry.png', cv2.IMREAD_GRAYSCALE)),
+        cv2.bitwise_not(cv2.imread('images/emoji/money_happy.png', cv2.IMREAD_GRAYSCALE)),
+        cv2.bitwise_not(cv2.imread('images/emoji/bad.png', cv2.IMREAD_GRAYSCALE)),
+        cv2.bitwise_not(cv2.imread('images/emoji/wrath.png', cv2.IMREAD_GRAYSCALE)),
+        cv2.bitwise_not(cv2.imread('images/emoji/eat.png', cv2.IMREAD_GRAYSCALE)),
+        cv2.bitwise_not(cv2.imread('images/emoji/up.png', cv2.IMREAD_GRAYSCALE)),
+        cv2.bitwise_not(cv2.imread('images/emoji/cry.png', cv2.IMREAD_GRAYSCALE)),
+    ]
+
     # 이미지 변환 함수 (OpenCV -> PyQt)
     def convert_to_pyqt_img(image):
         image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
