@@ -93,6 +93,7 @@ class EmojiStickerSettingController:
         self.app_manager = app_manager
 
         self.view.save_btn.clicked.connect(self.on_save_clicked)
+        self.view.text_btn.clicked.connect(self.on_text_clicked)
         self.view.undo_btn.clicked.connect(self.on_undo_clicked)
         self.view.redo_btn.clicked.connect(self.on_redo_clicked)
         for i, btn in enumerate(self.view.emoji_btn):
@@ -102,6 +103,10 @@ class EmojiStickerSettingController:
         self.main_processor.save_completed_four_cut()
         self.main_processor.reset()
         self.app_manager.show_start_screen()
+
+    def on_text_clicked(self):
+        four_cut = self.main_processor.add_text(self.view.input.text())
+        self.view.update_main_area(four_cut)
 
     def on_undo_clicked(self):
         four_cut = self.main_processor.undo_four_cut()
