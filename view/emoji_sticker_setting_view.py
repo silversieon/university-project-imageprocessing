@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QWidget, QPushButton, QVBoxLayout, QDesktopWidget, QHBoxLayout, QLabel
+from PyQt5.QtWidgets import QWidget, QPushButton, QVBoxLayout, QDesktopWidget, QHBoxLayout, QLabel, QLineEdit
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import Qt
 from model.settings import Settings
@@ -12,6 +12,8 @@ class EmojiStickerSettingView(QWidget):
 
         self.top_bar = QHBoxLayout()
         self.save_btn = QPushButton("⭐이미지 저장⭐")
+        self.input = QLineEdit(self)
+        self.text_btn = QPushButton("입력")
         self.set_top_bar()
 
         self.left_bar = QVBoxLayout()
@@ -55,10 +57,17 @@ class EmojiStickerSettingView(QWidget):
 
     def set_top_bar(self):
         self.save_btn.setFixedSize(200, 100)
-
+        self.input.setFixedSize(500, 50)
+        self.input.setStyleSheet("background-color: white;")
+        self.text_btn.setFixedSize(100, 50)
+        self.text_btn.setStyleSheet("background-color: white;")
         center_layout = QHBoxLayout()
+        center_layout.addWidget(self.input)
+        center_layout.addWidget(self.text_btn)
+        center_layout.addSpacing(20)
 
         self.top_bar.addWidget(self.save_btn)
+        self.top_bar.addStretch()
         self.top_bar.addLayout(center_layout)
         self.top_bar.addStretch()
         
