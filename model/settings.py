@@ -4,6 +4,7 @@ from PyQt5.QtGui import QImage, QPixmap
 
 class Settings():
     MAIN_ICON = 'images/icon/main_icon.png'
+    CAMERA_TIME = 5
     WIDTH = 1200
     HEIGHT = 900
     TARGET_WIDTH = 480
@@ -52,7 +53,13 @@ class Settings():
         cv2.imread('images/emoji/up.png', cv2.IMREAD_COLOR),
         cv2.imread('images/emoji/cry.png', cv2.IMREAD_COLOR),
         cv2.imread('images/emoji/heart.png', cv2.IMREAD_COLOR),
-        cv2.imread('images/emoji/star.png', cv2.IMREAD_COLOR)
+        cv2.imread('images/emoji/star.png', cv2.IMREAD_COLOR),
+        cv2.imread('images/emoji/party1.png', cv2.IMREAD_COLOR),
+        cv2.imread('images/emoji/party2.png', cv2.IMREAD_COLOR),
+        cv2.imread('images/emoji/skon.png', cv2.IMREAD_COLOR),
+        cv2.imread('images/emoji/conver.png', cv2.IMREAD_COLOR),
+        cv2.imread('images/emoji/banana.png', cv2.IMREAD_COLOR),
+        cv2.imread('images/emoji/cherry.png', cv2.IMREAD_COLOR)
     ]
 
     # 이미지 변환 함수 (OpenCV -> PyQt)
