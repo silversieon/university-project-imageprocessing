@@ -1,6 +1,6 @@
 class AppManager:
     def __init__(self):
-        from model.processor import MainProcessor
+        from model.main_processor import MainProcessor
         self.current_view = None
         self.current_controller = None
         self.main_processor = MainProcessor()
@@ -20,7 +20,7 @@ class AppManager:
         self.close_current_view()
 
         from view.take_picture_view import TakePictureView
-        from model.processor import TakePictureProcessor
+        from model.take_picture_processor import TakePictureProcessor
         from controller.controller import TakePictureController
 
         self.take_picture_processor = TakePictureProcessor()
@@ -40,7 +40,16 @@ class AppManager:
         self.current_view.show()
         self.current_view.center()
 
-    # def show_image_sticker_setting_screen(self):
+    def show_img_sticker_setting_screen(self):
+        self.close_current_view()
+
+        from view.img_sticker_setting_view import ImgStickerSettingView
+        from controller.controller import ImgStickerSettingController
+
+        self.current_view = ImgStickerSettingView(self.main_processor)
+        self.current_controller = ImgStickerSettingController(self.current_view, self.main_processor, self)
+        self.current_view.show()
+        self.current_view.center()
 
     def show_emoji_sticker_setting_screen(self):
         self.close_current_view()
