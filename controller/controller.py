@@ -98,6 +98,8 @@ class ImgStickerSettingController():
         self.view.img_load_btn.clicked.connect(self.on_img_load_clicked)
         self.view.img_sticker_btn.clicked.connect(self.on_img_sticker_btn_clicked)
         self.view.crop_btn.clicked.connect(self.on_crop_clicked)
+        self.view.nukki_btn.clicked.connect(self.on_nukki_clicked)
+        self.view.fine_btn.clicked.connect(self.on_fine_clicked)
         self.view.undo_btn.clicked.connect(self.on_undo_clicked)
         self.view.redo_btn.clicked.connect(self.on_redo_clicked)
 
@@ -114,6 +116,21 @@ class ImgStickerSettingController():
         cropped_img = self.main_processor.cut_img()
         if cropped_img is not None:
             self.view.set_img_sticker_btn(cropped_img)
+
+    def on_nukki_clicked(self):
+        nukkied_img = self.main_processor.nukki_img()
+        if nukkied_img is not None:
+            self.view.set_img_sticker_btn(nukkied_img)
+
+    def on_fine_clicked(self):
+        fined_img = self.main_processor.fine_img()
+        if fined_img is not None:
+            self.view.set_img_sticker_btn(fined_img)
+
+    def on_img_sticker_btn_clicked(self):
+        four_cut = self.main_processor.add_img()
+        if four_cut is not None:
+            self.view.update_main_area(four_cut)
     
     def on_undo_clicked(self):
         four_cut = self.main_processor.undo_four_cut()
@@ -122,11 +139,6 @@ class ImgStickerSettingController():
     def on_redo_clicked(self):
         four_cut = self.main_processor.redo_four_cut()
         self.view.update_main_area(four_cut)
-
-    def on_img_sticker_btn_clicked(self):
-        four_cut = self.main_processor.add_img()
-        if four_cut is not None:
-            self.view.update_main_area(four_cut)
 
 class EmojiStickerSettingController:
     def __init__(self, view, main_processor, app_manager):
