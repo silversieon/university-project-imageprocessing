@@ -11,8 +11,10 @@ class ImgStickerSettingView(QWidget):
         self.setFixedSize(2000, 1500)
 
         self.top_bar = QHBoxLayout()
-        self.next_btn = QPushButton("다음으로")
-        self.crop_btn = QPushButton("영역 자르기")
+        self.next_btn = QPushButton("다음으로➡️")
+        self.crop_btn = QPushButton("영역 자르기✂️")
+        self.nukki_btn = QPushButton("누끼 따기🖼️")
+        self.fine_btn = QPushButton("미세 작업✏️")
         self.set_top_bar()
 
         self.left_bar = QVBoxLayout()
@@ -57,14 +59,22 @@ class ImgStickerSettingView(QWidget):
     def set_top_bar(self):
         self.next_btn.setFixedSize(200, 100)
         center_layout = QHBoxLayout()
-        center_layout.addSpacing(20)
 
-        self.crop_btn.setFixedSize(150, 80)
+        self.crop_btn.setFixedSize(180, 80)
         self.crop_btn.setStyleSheet("background-color: #FFFFFF; color: black; font-weight: bold;")
+        self.nukki_btn.setFixedSize(180, 80)
+        self.nukki_btn.setStyleSheet("background-color: #FFFFFF; color: black; font-weight: bold;")
+        self.fine_btn.setFixedSize(180, 80)
+        self.fine_btn.setStyleSheet("background-color: #FFFFFF; color: black; font-weight: bold;")
 
         self.top_bar.addWidget(self.next_btn)
         self.top_bar.addStretch()
-        self.top_bar.addWidget(self.crop_btn)
+        center_layout.addWidget(self.crop_btn)
+        center_layout.addSpacing(50)
+        center_layout.addWidget(self.nukki_btn)
+        center_layout.addSpacing(50)
+        center_layout.addWidget(self.fine_btn)
+        self.top_bar.addLayout(center_layout)
         self.top_bar.addStretch()
         
     def set_left_bar(self):

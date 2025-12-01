@@ -11,7 +11,7 @@ class BasicSettingView(QWidget):
         self.setWindowIcon(QIcon(Settings.MAIN_ICON))
 
         self.top_bar = QHBoxLayout()
-        self.next_btn = QPushButton("다음으로")
+        self.next_btn = QPushButton("다음으로➡️")
         self.color_btn = QPushButton()
         self.gray_btn = QPushButton()
         self.flip_btn = QPushButton("↔")

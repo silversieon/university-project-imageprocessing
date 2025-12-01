@@ -11,7 +11,7 @@ class EmojiStickerSettingView(QWidget):
         self.setFixedSize(2000, 1500)
 
         self.top_bar = QHBoxLayout()
-        self.save_btn = QPushButton("⭐이미지 저장⭐")
+        self.save_btn = QPushButton("이미지 저장📷")
         self.input = QLineEdit(self)
         self.text_btn = QPushButton("입력")
         self.set_top_bar()
