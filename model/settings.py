@@ -56,10 +56,14 @@ class Settings():
         cv2.imread('images/emoji/star.png', cv2.IMREAD_COLOR),
         cv2.imread('images/emoji/party1.png', cv2.IMREAD_COLOR),
         cv2.imread('images/emoji/party2.png', cv2.IMREAD_COLOR),
-        cv2.imread('images/emoji/skon.png', cv2.IMREAD_COLOR),
-        cv2.imread('images/emoji/conver.png', cv2.IMREAD_COLOR),
         cv2.imread('images/emoji/banana.png', cv2.IMREAD_COLOR),
-        cv2.imread('images/emoji/cherry.png', cv2.IMREAD_COLOR)
+        cv2.imread('images/emoji/cherry.png', cv2.IMREAD_COLOR),
+        cv2.imread('images/emoji/hamburger.png', cv2.IMREAD_COLOR),
+        cv2.imread('images/emoji/popcorn.png', cv2.IMREAD_COLOR),
+        cv2.imread('images/emoji/dog.png', cv2.IMREAD_COLOR),
+        cv2.imread('images/emoji/cat.png', cv2.IMREAD_COLOR),
+        cv2.imread('images/emoji/skon.png', cv2.IMREAD_COLOR),
+        cv2.imread('images/emoji/conver.png', cv2.IMREAD_COLOR)
     ]
 
     # 이미지 변환 함수 (OpenCV -> PyQt)
