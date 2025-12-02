@@ -3,6 +3,7 @@ import numpy as np
 from PIL import ImageFont, ImageDraw, Image
 
 class UtilProcessor:
+    # util_processor 생성자
     def __init__(self):
         # 전체 네 컷을 위한 undo, redo용 스택
         self.main_stack = []
@@ -16,6 +17,7 @@ class UtilProcessor:
         # 이미지 미세 작업(fine)을 위한 스택
         self.fine_stack = []
 
+    # 다음으로 버튼을 눌렀을 때 초기화 함수
     def reset(self):
         self.main_stack.clear()
         self.sub_stack.clear()
@@ -23,7 +25,7 @@ class UtilProcessor:
         self.before_roi = None
 
     ###################################
-    # 이모지 관련 처리 함수들(이미지 스티커, 이모지 모두 포함)
+    # 스티커 관련 마우스 이벤트 처리 함수(이미지 스티커, 이모지 모두 포함)
     ###################################
     def onMouse_Sticker(self, event, x, y, flags, param):
         if event == cv2.EVENT_LBUTTONDOWN:
@@ -55,38 +57,6 @@ class UtilProcessor:
             self.param['fg_mask'] = foreground_mask
             self.param['original_fg_mask'] = foreground_mask
             cv2.imshow(title, self.param['four_cut'])
-
-        # if event == cv2.EVENT_RBUTTONDOWN:
-        #     if self.param == None:
-        #         return
-
-        #     title = self.param['title']
-        #     four_cut = self.param['four_cut']
-        #     original_four_cut = self.param['original_four_cut']
-        #     emoji = self.param['sticker']
-        #     original_emoji = self.param['original_sticker']
-        #     fg_mask = self.param['fg_mask']
-        #     x, y = self.param['center']
-
-        #     # 이전 영역은 되돌리기(크기가 작아지는 걸 고려하여 크기 변경 전 수행)
-        #     if self.before_roi is not None:
-        #         by, bx = self.before_roi
-        #         h, w = emoji.shape[:2]
-        #         four_cut[by:by+h, bx:bx+w] = original_four_cut[by:by+h, bx:bx+w]
-
-        #     flipped_emoji = cv2.flip(emoji, 1)
-        #     flipped_fg_mask = cv2.flip(fg_mask, 1)
-        #     flipped_bg_mask = cv2.bitwise_not(flipped_fg_mask)
-
-        #     return_value = self.add_sticker(four_cut, flipped_emoji, x, y, flipped_fg_mask, flipped_bg_mask)
-
-        #     self.param['four_cut'] = return_value[0]
-        #     self.before_roi = return_value[1]
-        #     self.param['sticker'] = flipped_emoji
-        #     self.param['original_sticker'] = flipped_emoji
-        #     self.param['fg_mask'] = flipped_fg_mask
-        #     self.param['original_fg_mask'] = flipped_fg_mask
-        #     cv2.imshow(title, self.param['four_cut'])
 
         if event == cv2.EVENT_MOUSEWHEEL:
             if self.param == None:
@@ -138,6 +108,9 @@ class UtilProcessor:
             self.param['fg_mask'] = new_fg_mask
             cv2.imshow(title, self.param['four_cut'])
 
+    ###################################
+    # 스티커 관련 트랙바 이벤트 처리 함수(이모지용)
+    ###################################
     def onChange_Sticker(self, value):
         if self.param['center'] is None:
             return
@@ -169,42 +142,9 @@ class UtilProcessor:
         self.before_roi = return_value[1]
         cv2.imshow(title, self.param['four_cut'])
 
-    ###################################
-    # 텍스트 관련 처리 함수
-    ###################################
-    def onMouse_Text(self, event, x, y, flags, param):
-        if event == cv2.EVENT_LBUTTONDOWN:
-            self.param = param
-            title = self.param['title']
-            text = self.param['text']
-            four_cut = self.param['four_cut']
-            original_four_cut = self.param['original_four_cut']
-
-            if self.before_roi is not None:
-                four_cut= original_four_cut # 원본으로 통으로 대체
-            
-            pil_img = Image.fromarray(cv2.cvtColor(four_cut, cv2.COLOR_BGR2RGB))
-            font = ImageFont.truetype('C:/Windows/Fonts/malgun.ttf', 25)
-            draw = ImageDraw.Draw(pil_img)
-
-            bbox = draw.textbbox((0, 0), text, font=font, stroke_width=1)
-            text_w = bbox[2] - bbox[0]
-            text_h = bbox[3] - bbox[1]
-
-            x = x - text_w // 2
-            y = y - text_h // 2
-
-            draw.text((x, y), text, font=font, fill=(255, 255, 255), stroke_width=1)
-
-            four_cut = cv2.cvtColor(np.array(pil_img), cv2.COLOR_RGB2BGR)
-            self.param['four_cut'] = four_cut
-            self.param['center'] = (y, x)
-            self.before_roi = (y, x) # 그냥 아무 값이나 넣기
-            cv2.imshow(title, four_cut)
-
-    ###################################
+    ######################
     # 스티커를 붙이는 함수
-    ###################################
+    ######################
     def add_sticker(self, four_cut, emoji, x, y, foreground_mask, background_mask):
         # emoji의 시작점 잡기
         h, w = emoji.shape[:2]
@@ -245,16 +185,49 @@ class UtilProcessor:
         h, w = img.shape[:2]
         center = (w//2, h//2)
 
-        # 반환값: 중앙 기준 (코, 마사, 사, 코) + index 2위치에 center 기준 보정값
+        # 반환값: 중앙 기준 (코, 사, 마사, 코) + index 2위치에 center 기준 보정값
         rot_mat = cv2.getRotationMatrix2D(center, -value, 1)
 
         # 어파인 변환
         rotate_emoji = cv2.warpAffine(img, rot_mat, (w, h))
         return rotate_emoji
+
+    ########################
+    # 텍스트 관련 처리 함수
+    ########################
+    def onMouse_Text(self, event, x, y, flags, param):
+        if event == cv2.EVENT_LBUTTONDOWN:
+            self.param = param
+            title = self.param['title']
+            text = self.param['text']
+            four_cut = self.param['four_cut']
+            original_four_cut = self.param['original_four_cut']
+
+            if self.before_roi is not None:
+                four_cut= original_four_cut # 원본으로 통으로 대체
+            
+            pil_img = Image.fromarray(cv2.cvtColor(four_cut, cv2.COLOR_BGR2RGB))
+            font = ImageFont.truetype('C:/Windows/Fonts/malgun.ttf', 25)
+            draw = ImageDraw.Draw(pil_img)
+
+            bbox = draw.textbbox((0, 0), text, font=font, stroke_width=1)
+            text_w = bbox[2] - bbox[0]
+            text_h = bbox[3] - bbox[1]
+
+            x = x - text_w // 2
+            y = y - text_h // 2
+
+            draw.text((x, y), text, font=font, fill=(255, 255, 255), stroke_width=1)
+
+            four_cut = cv2.cvtColor(np.array(pil_img), cv2.COLOR_RGB2BGR)
+            self.param['four_cut'] = four_cut
+            self.param['center'] = (y, x)
+            self.before_roi = (y, x) # 그냥 아무 값이나 넣기
+            cv2.imshow(title, four_cut)
     
     ################################
-    # 이미지 크롭 관련 처리 함수들
-    ##############################
+    # 이미지 영역 자르기 관련 처리 함수들
+    ###############################
     def contain_pts(self, p, p1, p2):
         return p1[0] <= p[0] < p2[0] and p1[1] <= p[1] < p2[1]
 
@@ -280,6 +253,9 @@ class UtilProcessor:
         cv2.polylines(blured_img, [pts.astype(int)], True, (0, 255, 0), 3)
         cv2.imshow(title, blured_img)
 
+    ##########################################
+    # 이미지 영역 자르기 관련 마우스 이벤트 처리 함수
+    ###########################################
     def onMouse_Cut(self, event, x, y, flags, param):
         self.param = param
         title = param['title']
@@ -339,9 +315,9 @@ class UtilProcessor:
             self.pre_pt = (x, y)
             self.draw_rect(blured_img_sticker.copy(), img_sticker,  pts, small, title)
 
-    ###############################
-    # 이미지 미세 작업(fine) 관련 함수
-    ###############################
+    ###############################################
+    # 이미지 미세 작업(fine) 관련 마우스 이벤트 처리 함수
+    ###############################################
     def onMouse_Fine(self, event, x, y, flags, param):
         self.param = param
         title = param['title']

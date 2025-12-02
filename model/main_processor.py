@@ -17,15 +17,18 @@ class MainProcessor():
         self.before_nukki_sticker = None
         self.util_processor = UtilProcessor()
 
+    # 전경 통과 마스크 획득 함수
     def set_foreground_mask(self):
         mask = cv2.threshold(cv2.cvtColor(self.four_cut, cv2.COLOR_BGR2GRAY), 50, 255, cv2.THRESH_BINARY)[1]
         return mask
     
+    # 다시 촬영 또는 최종 저장시 초기화 함수
     def reset(self):
         self.captured_images = []
         self.captured_count = 0
         self.four_cut = cv2.imread('images/frame/default_frame.png', cv2.IMREAD_COLOR)
     
+    # 촬영한 이미지 저장 함수
     def save_images(self, captured_image):
         Settings.enhance_frame(captured_image)
         self.captured_images.append(captured_image)
@@ -34,16 +37,19 @@ class MainProcessor():
         self.captured_count+=1
         return self.captured_count
     
+    # 최종 네 컷 사진 저장 함수
     def save_completed_four_cut(self):
         cv2.imwrite("./four_cut.png", self.four_cut)
         print('save completed fout_cut')
 
+    # 이미지 컬러 변환
     def convert_to_color(self):
         for idx, (y1, y2, x1, x2) in enumerate(self.captured_img_rois):
             self.four_cut[y1:y2, x1:x2] = self.captured_images[idx]
 
         return self.four_cut
     
+    # 이미지 흑백 변환
     def convert_to_gray(self):
         for (y1, y2, x1, x2) in self.captured_img_rois:
             roi = self.four_cut[y1:y2, x1:x2]
@@ -53,6 +59,7 @@ class MainProcessor():
 
         return self.four_cut
     
+    # 이미지 좌우 변환
     def flip_captured_images(self):
         for (y1, y2, x1, x2) in self.captured_img_rois:
             roi = self.four_cut[y1:y2, x1:x2]
@@ -60,6 +67,7 @@ class MainProcessor():
 
         return self.four_cut
     
+    # 배경 프레임 색상 변경
     def change_background_color(self, idx):
         color = Settings.COLOR_PALETTE[idx]
         rgb = color.lstrip("#")
@@ -77,6 +85,7 @@ class MainProcessor():
 
         return self.four_cut
     
+    # 배경 프레임 특수로 변경
     def change_background_special(self, idx):
         special_frame = Settings.SPECIAL_FRAMES[idx]
         
@@ -87,6 +96,9 @@ class MainProcessor():
 
         return self.four_cut
     
+    ############################
+    # 실행 취소 수행 함수(undo)
+    ############################
     def undo_four_cut(self):
         if len(self.util_processor.main_stack) == 0:
             return self.four_cut
@@ -96,6 +108,9 @@ class MainProcessor():
         self.four_cut = pop_four_cut
         return pop_four_cut
     
+    ############################
+    # 다시 실행 수행 함수(redo)
+    ############################
     def redo_four_cut(self):
         if len(self.util_processor.sub_stack) == 0:
             return self.four_cut
@@ -105,6 +120,9 @@ class MainProcessor():
         self.four_cut = pop_four_cut
         return pop_four_cut
     
+    #############################
+    # 이미지 불러오기 수행 함수
+    #############################
     def load_img(self):
         file_path, _ = QFileDialog.getOpenFileName(
             None,
@@ -120,7 +138,10 @@ class MainProcessor():
             self.img_sticker = img
             self.before_nukki_sticker = cv2.resize(img, (w*3, h*3))
             return img
-        
+    
+    ###############################
+    # 이미지 스티커 추가 함수
+    ###############################
     def add_img(self):
         if self.img_sticker is None:
             return None
@@ -151,6 +172,9 @@ class MainProcessor():
         cv2.destroyAllWindows()
         return four_cut
     
+    ###############################
+    # 영역 자르기 수행 함수
+    ###############################
     def cut_img(self):
         if self.img_sticker is None:
             return None
@@ -180,6 +204,9 @@ class MainProcessor():
         cv2.destroyAllWindows()
         return img_sticker
     
+    ################################
+    # 누끼 따기 수행 함수
+    ###############################
     def nukki_img(self):
         if self.img_sticker is None:
             return None
@@ -222,6 +249,9 @@ class MainProcessor():
         self.img_sticker = original_img_sticker
         return original_img_sticker
     
+    ################################
+    # 미세 작업 수행 함수
+    ################################
     def fine_img(self):
         if self.img_sticker is None:
             return None
@@ -282,6 +312,9 @@ class MainProcessor():
         cv2.destroyAllWindows()
         return img_sticker
 
+    ################################
+    # 이모지 스티커 추가 함수
+    ################################
     def add_emoji(self, idx):
         # 추가할 이모지에 대한 초기화
         emoji = Settings.EMOJIES[idx]
@@ -311,6 +344,9 @@ class MainProcessor():
         cv2.destroyAllWindows()
         return four_cut
     
+    ##################################
+    # 텍스트 추가 함수
+    ##################################
     def add_text(self, text):
         four_cut = self.four_cut
         original_four_cut = four_cut.copy()
