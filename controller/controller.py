@@ -1,6 +1,9 @@
 from PyQt5.QtCore import QCoreApplication
 from model.settings import Settings
 
+####################
+# 1. 시작 컨트롤러
+####################
 class StartController:
     def __init__(self, view, app_manager):
         # 시작 컨트롤러의 view와 app_manager 정의
@@ -15,6 +18,9 @@ class StartController:
     def on_start_clicked(self):
         self.app_manager.show_take_picture_screen()
 
+####################
+# 2. 사진 촬영 컨트롤러
+####################
 class TakePictureController:
     def __init__(self, view, processor, main_processor, app_manager):
         # 이미지 촬영 컨트롤러의 view, processor, app_manager 정의
@@ -38,6 +44,9 @@ class TakePictureController:
             self.view.second_count.setStyleSheet("background-color: rgb(255, 255, 255); color: black; font-size: 60px; font-weight: bold;")
             if(count == 4): self.app_manager.show_basic_setting_screen()
 
+####################
+# 3. 기본 설정 컨트롤러
+####################
 class BasicSettingController:
     def __init__(self, view, main_processor, app_manager):
         # 이미지 기본 설정 컨트롤러의 view, processor, app_manager 정의
@@ -87,8 +96,12 @@ class BasicSettingController:
         self.main_processor.reset()
         self.app_manager.show_take_picture_screen()
 
+########################
+# 4. 이미지 스티커 컨트롤러
+########################
 class ImgStickerSettingController():
     def __init__(self, view, main_processor, app_manager):
+        # 이미지 스티커 설정 컨트롤러의 view, processor, app_manager 정의
         self.view = view
         self.main_processor = main_processor
         self.app_manager = app_manager
@@ -140,6 +153,9 @@ class ImgStickerSettingController():
         four_cut = self.main_processor.redo_four_cut()
         self.view.update_main_area(four_cut)
 
+########################
+# 5. 이모지 스티커 컨트롤러
+########################
 class EmojiStickerSettingController:
     def __init__(self, view, main_processor, app_manager):
         # 이모지 스티커 설정 컨트롤러의 view, processor, app_manager 정의
@@ -147,6 +163,7 @@ class EmojiStickerSettingController:
         self.main_processor = main_processor
         self.app_manager = app_manager
 
+        # view의 버튼 클릭시 이벤트 처리
         self.view.save_btn.clicked.connect(self.on_save_clicked)
         self.view.text_btn.clicked.connect(self.on_text_clicked)
         self.view.undo_btn.clicked.connect(self.on_undo_clicked)
