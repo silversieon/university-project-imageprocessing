@@ -1,15 +1,20 @@
-# 📦 uv 설치 및 기본 사용법 (macOS)
+# 📝 프로젝트 개요
+![](images/description/1.png)
+![](images/description/2.png)
+![](images/description/3.png)
 
-## 1. uv 설치 방법
+# ⚙️ 주요 기능
+![](images/description/4.png)
+![](images/description/5.png)
+![](images/description/6.png)
+![](images/description/7.png)
+![](images/description/8.png)
 
-### (권장) Homebrew 사용
+## ➕ 부가 기능
+![](images/description/9.png)
 
-```bash
-brew install uv
-```
+# 📁 프로젝트 파일 구조
+![](images/description/10.png)
 
-# 2. 명령어 설명
-
-- uv run <script>: 지정한 스크립트 실행
-- uv add <library>: 라이브러리 설치 (내가 설치할 때 사용)
-- uv sync: 설치된 라이브러리 적용 (협업자가 설치를 해놓았을 때 사용)
+# 🚩 프로그램 플로우
+![](images/description/11.png)
